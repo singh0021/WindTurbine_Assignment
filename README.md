@@ -8,7 +8,7 @@ The notebook runs through five stages:
 
 1. **Ingestion** — Reads three CSV files (one per turbine group), enforces a typed schema, and unions them into a single Spark DataFrame. On repeat runs it compares incoming data against what's already in the Delta table and only processes new records.
 
-2. **Cleaning** — Four passes over the raw data:
+2. **Cleaning** :
    - Drops duplicate readings (same turbine + timestamp).
    - Nulls out values outside physically plausible ranges (e.g. negative power output, wind speed above 100 m/s).
    - Fills gaps using per-turbine forward fill then backward fill via window functions.
@@ -37,19 +37,8 @@ If no new records are found, the notebook exits early.
 - Timestamps are hourly and timezone-naive (UTC assumed).
 - Readings are expected every hour. Gaps are treated as sensor malfunctions and filled via interpolation where possible.
 - Power output is in MW and should be non-negative. The valid range is 0–15 MW.
-- Wind speed is in m/s with a plausible upper bound of 100 m/s. Wind direction is 0–360 degrees.
-- The 3-sigma threshold for outlier capping is intentionally wider than the 2-sigma threshold for anomaly flagging. The goal is to preserve genuinely unusual-but-valid readings while only capping values that are physically implausible.
+- Wind speed is in m/s with a plausible upper bound of 100 m/s.
 - Anomaly detection uses a per-turbine, per-day z-score approach rather than a global baseline. This accounts for natural variation in daily wind conditions.
-- The pipeline targets `hive_metastore.wind_turbine` as the catalog and schema. Adjust the config cell if using Unity Catalog or a different metastore.
-- CSV files are stored in a `data/` folder next to the notebook in the Databricks workspace.
-
-## How to run
-
-1. Upload the notebook and the `data/` folder to the same directory in your Databricks workspace.
-2. Attach to a cluster with Delta Lake support (any recent Databricks Runtime).
-3. Run all cells top to bottom.
-
-On first run, the Delta tables are created from scratch. On subsequent runs, only new records are processed and merged in.
 
 ## Project structure
 
