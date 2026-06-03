@@ -1,0 +1,29 @@
+[project]
+name = "wind-turbine-pipeline"
+version = "0.1.0"
+description = "Medallion-architecture wind turbine data pipeline on Databricks (Asset Bundles + Lakeflow Declarative Pipelines)."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+# Put the reusable library on the import path so tests import `wind_turbine`
+# the same way the pipeline modules do.
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = [
+    "integration: slower end-to-end tests over the full medallion flow",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+# The DLT pipeline modules use globals (`spark`, `dlt`) injected by the runtime
+# and intentionally import after a sys.path tweak.
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# Notebook/pipeline modules import after a sys.path tweak (E402) and use globals
+# injected by the runtime — `dbutils`/`spark` in jobs, `spark`/`dlt` in DLT (F821).
+"src/jobs/*.py" = ["E402", "F821"]
+"src/setup/*.py" = ["F821"]
+"dlt/pipelines/*.py" = ["E402", "F821"]

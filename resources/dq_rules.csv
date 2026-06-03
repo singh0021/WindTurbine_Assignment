@@ -1,0 +1,6 @@
+name,constraint,description
+valid_timestamp,timestamp IS NOT NULL,Reading must have a timestamp
+valid_turbine_id,turbine_id IS NOT NULL AND turbine_id BETWEEN 1 AND 15,Turbine id must be a known turbine (1-15)
+valid_wind_speed,wind_speed IS NULL OR wind_speed BETWEEN 0 AND 100,Wind speed must be within 0-100 m/s when present
+valid_wind_direction,wind_direction IS NULL OR wind_direction BETWEEN 0 AND 360,Wind direction must be a compass bearing 0-360 degrees
+valid_power_output,power_output IS NULL OR power_output BETWEEN 0 AND 15,Power output must be within 0-15 MW when present

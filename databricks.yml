@@ -1,0 +1,59 @@
+# Databricks Asset Bundle for the Wind Turbine pipeline.
+#
+# Deploy with:   databricks bundle deploy -t dev
+# Run with:      databricks bundle run wind_turbine_daily_job -t dev
+#
+# Targets publish to the hive_metastore. `dev` and `prod` use separate schemas
+# and landing/storage paths so they never collide.
+bundle:
+  name: wind_turbine
+
+include:
+  - resources/*.yml
+
+# Ensure the sample CSVs are uploaded with the bundle so the land_data task can
+# stage them into the Auto Loader landing zone. (Code files sync by default;
+# this makes the data/ folder explicit.)
+sync:
+  include:
+    - data/**
+
+variables:
+  schema:
+    description: hive_metastore schema (database) the pipeline publishes to.
+    default: wind_turbine_dev
+  landing_path:
+    description: DBFS directory Auto Loader watches for incoming CSVs.
+    default: dbfs:/FileStore/wind_turbine/dev/landing
+  storage_path:
+    description: DBFS root where the Declarative Pipeline stores its data and checkpoints.
+    default: dbfs:/FileStore/wind_turbine/dev/storage
+  schedule_pause_status:
+    description: Whether the daily schedule is active (UNPAUSED) or dormant (PAUSED).
+    default: PAUSED
+
+targets:
+  dev:
+    mode: development
+    default: true
+    # `databricks bundle init`/`configure` fills in your workspace host; or set
+    # it here explicitly.
+    workspace:
+      host: https://adb-123456789089.4.azuredatabricks.net/
+    variables:
+      schema: wind_turbine_dev
+      landing_path: dbfs:/FileStore/wind_turbine/dev/landing
+      storage_path: dbfs:/FileStore/wind_turbine/dev/storage
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-123456789089.4.azuredatabricks.net/
+      root_path: /Shared/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      schema: wind_turbine
+      landing_path: dbfs:/FileStore/wind_turbine/prod/landing
+      storage_path: dbfs:/FileStore/wind_turbine/prod/storage
+      schedule_pause_status: UNPAUSED
+    run_as:
+      user_name: ${workspace.current_user.userName}

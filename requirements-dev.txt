@@ -1,0 +1,8 @@
+# Local development & CI dependencies.
+# On Databricks, PySpark and the `dlt` module are provided by the runtime —
+# they are NOT installed from here.
+pyspark==3.5.1
+delta-spark==3.2.0
+pytest==8.2.2
+numpy==1.26.4
+ruff==0.5.5
