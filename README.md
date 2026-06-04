@@ -166,3 +166,6 @@ pipeline:
 - Outliers are winsorised (capped at 3 std-devs) rather than dropped, so daily
   aggregates aren't skewed while no rows are lost.
 ```
+
+Notes
+- Currently, the workspace I ran code does not have access to DLT and Lakeview dashboard
