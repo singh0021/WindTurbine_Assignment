@@ -4,10 +4,9 @@
 # MAGIC
 # MAGIC Copies the sample CSV files shipped in the project's `data/` folder into the
 # MAGIC DBFS landing directory that Auto Loader watches.
-# COMMAND ----------
 
 dbutils.widgets.text("landing_path", "")
-dbutils.widgets.text("source_data_path", "")  # optional override; auto-derived if blank
+dbutils.widgets.text("source_data_path", "")  
 
 landing_path = dbutils.widgets.get("landing_path")
 source_data_path = dbutils.widgets.get("source_data_path").strip()
@@ -15,7 +14,6 @@ source_data_path = dbutils.widgets.get("source_data_path").strip()
 if not landing_path:
     raise ValueError("landing_path widget must be set")
 
-# COMMAND ----------
 
 # Known storage schemes — a path that already has one is left untouched.
 _SCHEMES = ("dbfs:", "file:", "s3:", "s3a:", "abfss:", "gs:", "wasbs:")
@@ -47,7 +45,6 @@ source = _to_fs_path(source_data_path) if source_data_path else _default_source_
 print(f"Source data directory: {source}")
 print(f"Landing zone:          {landing_path}")
 
-# COMMAND ----------
 
 dbutils.fs.mkdirs(landing_path)
 

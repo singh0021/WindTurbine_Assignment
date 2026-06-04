@@ -11,10 +11,6 @@ def detect_anomalies(
 ) -> DataFrame:
     """Flag readings deviating more than ``threshold`` std-devs from the daily mean.
 
-    Statistics are computed per turbine *per day* rather than against a global
-    baseline, so natural day-to-day variation in wind conditions doesn't drown
-    out genuinely anomalous readings. Days where every reading is identical
-    (std-dev 0) produce a z-score of 0 and are never flagged.
     """
     df_with_date = df.withColumn("date", F.to_date("timestamp"))
 

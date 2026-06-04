@@ -1,6 +1,4 @@
 -- Fleet daily power trend.
--- Visual: line chart, X = date, Y = avg_mean_power, series = (all turbines).
--- Backs the "is the farm producing as expected day to day?" view.
 SELECT
   date,
   ROUND(AVG(mean_power), 3) AS avg_mean_power,

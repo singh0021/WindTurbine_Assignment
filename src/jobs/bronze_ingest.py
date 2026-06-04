@@ -4,13 +4,7 @@
 # MAGIC
 # MAGIC Incrementally ingests CSVs from the landing zone into the
 # MAGIC `bronze_readings` Delta table using **Auto Loader** with an enforced
-# MAGIC schema. Auto Loader works in a plain job (it does not require Declarative
-# MAGIC Pipelines): it tracks already-processed files via a checkpoint, so each run
-# MAGIC only picks up new files — replacing the original notebook's `left_anti` join.
-# MAGIC
-# MAGIC The bronze table is append-only and preserves the raw data plus ingestion
-# MAGIC lineage; no cleaning happens here.
-
+# MAGIC schema. The bronze table is append-only
 
 
 import sys
@@ -62,7 +56,7 @@ query = (
 )
 query.awaitTermination()
 
-# COMMAND ----------
+
 
 count = spark.table(f"{schema}.bronze_readings").count()
 print(f"bronze_readings now holds {count} rows")

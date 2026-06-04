@@ -52,7 +52,7 @@ def test_delta_medallion_roundtrip_is_idempotent(spark, make_readings, base_ts):
 
         assert spark.table(f"{schema}.silver_quarantine").count() == 1
         cleaned_count = spark.table(f"{schema}.silver_cleaned_readings").count()
-        assert cleaned_count == 60  # 60 valid unique rows; duplicate dropped
+        assert cleaned_count == 60  
         for col in ["wind_speed", "wind_direction", "power_output"]:
             assert (
                 spark.table(f"{schema}.silver_cleaned_readings")

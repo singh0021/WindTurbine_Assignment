@@ -7,8 +7,6 @@ Two tables are published:
 * ``silver_cleaned_readings``  — rows that passed every rule, then de-duplicated,
                                  gap-filled and outlier-capped.
 
-Data-quality rules are loaded from a deployed CSV (``dq_rules_path``) so the
-valid ranges can be tuned without code changes.
 """
 
 import os
@@ -21,10 +19,10 @@ _SRC = os.path.join(_REPO_ROOT, "src")
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 
-from wind_turbine.cleaning import clean  # noqa: E402
-from wind_turbine.quality import load_dq_rules, split_on_rules  # noqa: E402
+from wind_turbine.cleaning import clean  
+from wind_turbine.quality import load_dq_rules, split_on_rules  
 
-DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path"))  # noqa: F821
+DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path")) 
 
 
 @dlt.table(
@@ -33,7 +31,7 @@ DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path"))  # noqa: F821
     table_properties={"quality": "silver"},
 )
 def silver_quarantine():
-    # Read the full bronze table (batch) so the gate sees complete history.
+    
     _, quarantined = split_on_rules(dlt.read("bronze_readings"), DQ_RULES)
     return quarantined
 

@@ -1,8 +1,5 @@
 """Data-quality gate driven by externally-defined rules.
 
-The rules themselves live in ``resources/dq_rules.csv`` so an analyst can tune
-the valid ranges without editing (or redeploying) code. Each rule is a SQL
-boolean expression that must evaluate to TRUE for a row to be considered valid.
 
 Rows that fail one or more rules are routed to a *quarantine* table, tagged with
 the names of the rules they violated, so they can be examined later instead of
@@ -15,7 +12,7 @@ from dataclasses import dataclass
 from pyspark.sql import Column, DataFrame
 from pyspark.sql import functions as F
 
-# Marker columns added to the quarantine output.
+
 FAILED_RULES_COL = "_failed_rules"
 QUARANTINED_AT_COL = "_quarantined_at"
 
@@ -25,7 +22,7 @@ class DQRule:
     """A single data-quality rule loaded from the rules CSV."""
 
     name: str
-    constraint: str  # SQL expression that must be TRUE for a valid row
+    constraint: str  
     description: str = ""
 
 
@@ -56,7 +53,7 @@ def _failed_rules_column(rules: list[DQRule]) -> Column:
     flags = [
         F.when(~F.expr(rule.constraint), F.lit(rule.name)) for rule in rules
     ]
-    # array(...) yields nulls for passing rules; array_compact drops them.
+    
     return F.array_compact(F.array(*flags))
 
 

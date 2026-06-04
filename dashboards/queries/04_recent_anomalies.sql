@@ -1,5 +1,4 @@
 -- Recent anomalous readings (detail table).
--- Visual: table, sortable by z_score. Operational drill-down for investigation.
 SELECT
   timestamp,
   turbine_id,

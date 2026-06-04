@@ -1,9 +1,6 @@
 # Orchestration job: lands new data, then runs the medallion pipeline as plain
 # notebook tasks (no Declarative Pipelines / DLT required).
 #
-# Runs daily on a schedule. Each medallion stage is its own task, wired as an
-# explicit DAG so a stage can be retried or inspected independently:
-#
 #   land_data ──▶ bronze ──▶ silver ──▶ gold
 #
 # All tasks share a single job cluster (cheaper than spinning one up per task).
@@ -13,7 +10,7 @@ resources:
       name: "[${bundle.target}] wind_turbine_daily_job"
 
       schedule:
-        # 02:00 UTC every day — after the daily 24h extract has landed.
+        # assumption 02:00 UTC every day — after the daily 24h extract has landed.
         quartz_cron_expression: "0 0 2 * * ?"
         timezone_id: UTC
         pause_status: ${var.schedule_pause_status}
@@ -32,9 +29,7 @@ resources:
             notebook_path: ../src/setup/land_sample_data.py
             base_parameters:
               landing_path: ${var.landing_path}
-              # source_data_path is auto-derived from the notebook's own location
-              # (the project's data/ folder), so this works for both bundle and
-              # Repo deployments. Set it here only to override that default.
+
 
         - task_key: bronze
           depends_on:

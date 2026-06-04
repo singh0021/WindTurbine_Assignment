@@ -14,6 +14,5 @@ OUTLIER_STD_THRESHOLD = 3.0
 # standard deviations from its turbine's *daily* mean.
 ANOMALY_STD_THRESHOLD = 2.0
 
-# Expected readings per turbine per day. Daily summaries with fewer rows than
-# this are flagged as incomplete (likely sensor gaps).
+# Expected readings per turbine per day.
 EXPECTED_READINGS_PER_DAY = 24

@@ -1,7 +1,7 @@
 [project]
 name = "wind-turbine-pipeline"
 version = "0.1.0"
-description = "Medallion-architecture wind turbine data pipeline on Databricks (Asset Bundles + Lakeflow Declarative Pipelines)."
+description = "Medallion-architecture wind turbine data pipeline on Databricks."
 requires-python = ">=3.10"
 
 [tool.pytest.ini_options]

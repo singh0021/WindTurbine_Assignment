@@ -1,20 +1,10 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Silver — data-quality gate + cleaning (no DLT)
-# MAGIC
-# MAGIC Reads the full `bronze_readings` table, applies the data-quality rules from
-# MAGIC `dq_rules.csv`, and writes two Delta tables:
-# MAGIC
-# MAGIC * `silver_quarantine` — rows that failed one or more rules, tagged with the
-# MAGIC   rule names, kept for later examination.
-# MAGIC * `silver_cleaned_readings` — rows that passed, then de-duplicated,
-# MAGIC   gap-filled and outlier-capped.
-# MAGIC
-# MAGIC Silver is a full recompute from bronze (its window/global statistics need
-# MAGIC the complete history), so both tables are overwritten each run — bronze is
-# MAGIC the incremental layer, silver/gold are deterministic materialisations.
+# MAGIC # Silver — data-quality gate + cleaning
+# MAGIC * `silver_quarantine` — rows that failed one or more rules, tagged with the rule names, kept for later examination.
+# MAGIC * `silver_cleaned_readings` — rows that passed, then de-duplicated,  gap-filled and outlier-capped.
 
-# COMMAND ----------
+
 
 import sys
 

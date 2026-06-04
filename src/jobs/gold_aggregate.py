@@ -8,10 +8,9 @@
 # MAGIC * `gold_overall_summary` — min/max/mean/std power per turbine, whole period
 # MAGIC * `gold_anomalies`       — readings >2 std-devs from the turbine's daily mean
 # MAGIC * `gold_anomaly_summary` — anomaly counts and severity per turbine
-# MAGIC
 # MAGIC All four are overwritten each run (deterministic recompute from silver).
 
-# COMMAND ----------
+
 
 import sys
 
@@ -40,8 +39,6 @@ def _write(df, table):
     )
     print(f"{table}: {spark.table(f'{schema}.{table}').count()} rows")
 
-
-# COMMAND ----------
 
 cleaned = spark.table(f"{schema}.silver_cleaned_readings")
 
