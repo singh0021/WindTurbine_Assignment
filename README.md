@@ -127,8 +127,7 @@ pytest --cov=wind_turbine --cov-report=term-missing   # with coverage
 ## Dashboard
 
 The reporting dashboard is built on the gold tables; its queries are
-version-controlled under [`dashboards/queries/`](dashboards/queries) (see
-[`dashboards/README.md`](dashboards/README.md) for build steps and tile types).
+version-controlled under [`dashboards/queries/`](dashboards/queries)
 
 ## Design notes
 

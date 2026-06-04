@@ -1,19 +1,13 @@
 # Lakeflow Declarative Pipeline (bronze -> silver -> gold).
 #
 # NOT included in the default bundle — this requires the Declarative Pipelines
-# (DLT) feature to be enabled in the workspace. See dlt/README.md for how to
-# switch the bundle from the plain-job pipeline to this one.
-#
-# Each layer is defined as one or more tables in dlt/pipelines/*.py. The pipeline
-# resolves the dependency DAG automatically and runs each dataset as an
-# independent, individually-observable flow — so a single stage can be retried or
-# inspected without re-running the others.
+# (DLT) feature to be enabled in the workspace.
+
 resources:
   pipelines:
     wind_turbine_pipeline:
       name: "[${bundle.target}] wind_turbine_pipeline"
       # hive_metastore mode: publish to a schema with an explicit storage root
-      # (no `catalog` / `serverless`, which require Unity Catalog).
       target: ${var.schema}
       storage: ${var.storage_path}
       edition: ADVANCED
