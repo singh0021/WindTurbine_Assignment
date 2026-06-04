@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from pyspark.sql import Column, DataFrame
 from pyspark.sql import functions as F
 
-
 FAILED_RULES_COL = "_failed_rules"
 QUARANTINED_AT_COL = "_quarantined_at"
 
@@ -22,7 +21,7 @@ class DQRule:
     """A single data-quality rule loaded from the rules CSV."""
 
     name: str
-    constraint: str  
+    constraint: str
     description: str = ""
 
 
@@ -53,7 +52,7 @@ def _failed_rules_column(rules: list[DQRule]) -> Column:
     flags = [
         F.when(~F.expr(rule.constraint), F.lit(rule.name)) for rule in rules
     ]
-    
+
     return F.array_compact(F.array(*flags))
 
 

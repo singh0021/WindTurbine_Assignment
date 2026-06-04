@@ -6,7 +6,7 @@
 # MAGIC DBFS landing directory that Auto Loader watches.
 
 dbutils.widgets.text("landing_path", "")
-dbutils.widgets.text("source_data_path", "")  
+dbutils.widgets.text("source_data_path", "")
 
 landing_path = dbutils.widgets.get("landing_path")
 source_data_path = dbutils.widgets.get("source_data_path").strip()
@@ -29,14 +29,14 @@ def _to_fs_path(path: str) -> str:
         return "file:" + path
     if path.startswith(("/Repos", "/Users", "/Shared")):
         return "file:/Workspace" + path
-    return path 
+    return path
 
 
 def _default_source_data_path() -> str:
     """Locate the project's ``data/`` folder relative to this notebook.
     """
     ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
-    nb_path = ctx.notebookPath().get()  
+    nb_path = ctx.notebookPath().get()
     project_root = nb_path.rsplit("/src/setup/", 1)[0]
     return f"file:/Workspace{project_root}/data"
 

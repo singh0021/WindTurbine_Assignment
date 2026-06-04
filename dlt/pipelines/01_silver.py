@@ -19,10 +19,10 @@ _SRC = os.path.join(_REPO_ROOT, "src")
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 
-from wind_turbine.cleaning import clean  
-from wind_turbine.quality import load_dq_rules, split_on_rules  
+from wind_turbine.cleaning import clean
+from wind_turbine.quality import load_dq_rules, split_on_rules
 
-DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path")) 
+DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path"))
 
 
 @dlt.table(
@@ -31,7 +31,7 @@ DQ_RULES = load_dq_rules(spark.conf.get("dq_rules_path"))
     table_properties={"quality": "silver"},
 )
 def silver_quarantine():
-    
+
     _, quarantined = split_on_rules(dlt.read("bronze_readings"), DQ_RULES)
     return quarantined
 

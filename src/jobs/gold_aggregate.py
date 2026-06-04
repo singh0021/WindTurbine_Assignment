@@ -26,8 +26,8 @@ if not all([schema, src_path]):
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
-from wind_turbine.anomalies import detect_anomalies, summarise_anomalies 
-from wind_turbine.summary import compute_daily_summary, compute_overall_summary 
+from wind_turbine.anomalies import detect_anomalies, summarise_anomalies
+from wind_turbine.summary import compute_daily_summary, compute_overall_summary
 
 
 def _write(df, table):

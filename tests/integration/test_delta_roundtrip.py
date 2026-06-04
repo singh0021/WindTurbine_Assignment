@@ -37,8 +37,8 @@ def test_delta_medallion_roundtrip_is_idempotent(spark, make_readings, base_ts):
             (base_ts + datetime.timedelta(hours=h), 2, 9.0, 90.0, 2.0 + (h % 4))
             for h in range(30)
         ]
-        rows.append((base_ts, 1, 10.0, 180.0, 3.0))  
-        rows.append((base_ts, 3, 10.0, 180.0, -5.0)) 
+        rows.append((base_ts, 1, 10.0, 180.0, 3.0))
+        rows.append((base_ts, 3, 10.0, 180.0, -5.0))
 
         # BRONZE (stand-in for Auto Loader: a batch write to the Delta table).
         _overwrite(make_readings(rows), f"{schema}.bronze_readings")
@@ -52,7 +52,7 @@ def test_delta_medallion_roundtrip_is_idempotent(spark, make_readings, base_ts):
 
         assert spark.table(f"{schema}.silver_quarantine").count() == 1
         cleaned_count = spark.table(f"{schema}.silver_cleaned_readings").count()
-        assert cleaned_count == 60  
+        assert cleaned_count == 60
         for col in ["wind_speed", "wind_direction", "power_output"]:
             assert (
                 spark.table(f"{schema}.silver_cleaned_readings")

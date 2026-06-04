@@ -26,10 +26,8 @@ if not all([schema, landing_path, checkpoint_path, src_path]):
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
-from pyspark.sql import functions as F  
-from wind_turbine.schema import RAW_SCHEMA  
-
-
+from pyspark.sql import functions as F
+from wind_turbine.schema import RAW_SCHEMA
 
 spark.sql(f"CREATE DATABASE IF NOT EXISTS {schema}")
 

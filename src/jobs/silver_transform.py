@@ -1,8 +1,10 @@
 # Databricks notebook source
 # MAGIC %md
 # MAGIC # Silver — data-quality gate + cleaning
-# MAGIC * `silver_quarantine` — rows that failed one or more rules, tagged with the rule names, kept for later examination.
-# MAGIC * `silver_cleaned_readings` — rows that passed, then de-duplicated,  gap-filled and outlier-capped.
+# MAGIC * `silver_quarantine` — rows that failed one or more rules, tagged with
+# MAGIC   the rule names, kept for later examination.
+# MAGIC * `silver_cleaned_readings` — rows that passed, then de-duplicated,
+# MAGIC   gap-filled and outlier-capped.
 
 
 
@@ -25,8 +27,6 @@ if src_path not in sys.path:
 from wind_turbine.cleaning import clean  # noqa: E402
 from wind_turbine.quality import load_dq_rules, split_on_rules  # noqa: E402
 from wind_turbine.schema import RAW_SCHEMA  # noqa: E402
-
-
 
 bronze = spark.table(f"{schema}.bronze_readings")
 

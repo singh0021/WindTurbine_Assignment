@@ -10,9 +10,7 @@ from wind_turbine.schema import MEASURE_COLUMNS
 
 
 def remove_duplicates(df: DataFrame) -> DataFrame:
-    """Drop duplicate readings for the same turbine and timestamp.
- 
-    """
+    """Drop duplicate readings for the same turbine and timestamp."""
     return df.dropDuplicates(["turbine_id", "timestamp"])
 
 

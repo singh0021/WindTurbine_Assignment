@@ -16,9 +16,9 @@ _SRC = os.path.join(_REPO_ROOT, "src")
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 
-from wind_turbine.schema import RAW_SCHEMA  
+from wind_turbine.schema import RAW_SCHEMA
 
-SOURCE_PATH = spark.conf.get("source_path") 
+SOURCE_PATH = spark.conf.get("source_path")
 
 @dlt.table(
     name="bronze_readings",

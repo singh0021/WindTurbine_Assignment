@@ -18,8 +18,8 @@ _SRC = os.path.join(_REPO_ROOT, "src")
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 
-from wind_turbine.anomalies import detect_anomalies, summarise_anomalies 
-from wind_turbine.summary import ( 
+from wind_turbine.anomalies import detect_anomalies, summarise_anomalies
+from wind_turbine.summary import (
     compute_daily_summary,
     compute_overall_summary,
 )
